@@ -62,7 +62,5 @@ json AbstractOps::getJson() {
     obj["name"] = name;
     obj["results"] = json(finalResults);
 
-    cout << obj.dump(4) << endl;
-
     return obj;
 }

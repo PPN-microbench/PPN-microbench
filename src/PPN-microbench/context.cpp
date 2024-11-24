@@ -129,7 +129,5 @@ json Context::getJson() {
     obj["cpu_info"] = cpu_info;
     obj["mem_info"] = mem_info;
 
-    cout << obj.dump(4) << endl;
-
     return obj;
 }
