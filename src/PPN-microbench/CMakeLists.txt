@@ -1,7 +1,6 @@
 add_library(PPN-microbench STATIC)
 
-target_sources(PPN-microbench PRIVATE microbench.cpp context.cpp conductor.cpp)
-target_sources(PPN-microbench PRIVATE ops/abstract_ops.cpp ops/flops.cpp ops/iops.cpp)
+target_sources(PPN-microbench PRIVATE microbench.cpp context.cpp conductor.cpp ops.cpp)
 
 target_sources(
     PPN-microbench
@@ -11,9 +10,7 @@ target_sources(
         FILES ${PROJECT_SOURCE_DIR}/include/PPN-microbench/microbench.hpp
         FILES ${PROJECT_SOURCE_DIR}/include/PPN-microbench/context.hpp
         FILES ${PROJECT_SOURCE_DIR}/include/PPN-microbench/conductor.hpp
-        FILES ${PROJECT_SOURCE_DIR}/include/PPN-microbench/ops/abstract_ops.hpp
-        FILES ${PROJECT_SOURCE_DIR}/include/PPN-microbench/ops/flops.hpp
-        FILES ${PROJECT_SOURCE_DIR}/include/PPN-microbench/ops/iops.hpp
+        FILES ${PROJECT_SOURCE_DIR}/include/PPN-microbench/ops.hpp
 )
 
 set_target_properties(PPN-microbench PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
