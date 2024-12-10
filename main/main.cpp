@@ -8,5 +8,5 @@
 
 int main() {
     Flops f(10);
-    f.context.getInstance().getJson();
+    std::cout << f.context.getInstance().getJson().dump(4) << std::endl;
 }

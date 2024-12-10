@@ -45,6 +45,19 @@ class Context {
     void operator=(Context const &) = delete;
     ~Context();
 
+    const std::string &getCpuArchi() const { return cpuArchi; }
+    const size_t &getWordSize() const { return wordSize; }
+    const size_t &getSockets() const { return sockets; }
+    const size_t &getCpus() const { return cpus; }
+    const size_t &getThreads() const { return threads; }
+    const std::vector<size_t> getThreadMapping() const { return threadMapping; }
+    const std::set<std::string> &getSIMD() const { return simd; }
+    const size_t &getMemory() const { return memory; }
+    const size_t &getl1d() const { return l1d; }
+    const size_t &getl1i() const { return l1i; }
+    const size_t &getl2() const { return l2; }
+    const size_t &getl3() const { return l3; }
+
     json getJson();
 };
 

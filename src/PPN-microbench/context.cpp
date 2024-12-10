@@ -101,8 +101,8 @@ void Context::cpuInfo() {
             // only add the current core to the mapping if it hasn't appeared
             // before.
             if (mappedCores.find(proc) == mappedCores.end()) {
-                threadMapping.push_back(proc);
-                mappedCores.emplace(currProc);
+                threadMapping.push_back(currProc);
+                mappedCores.emplace(proc);
             }
         }
 
@@ -113,6 +113,15 @@ void Context::cpuInfo() {
                 mappedCores.clear();
                 sockets = sockCout;
             }
+        }
+    }
+
+    // ARM /proc/cpuinfo has way less information about cpu cores
+    // we have to manuall set the mapping
+    if (cpuArchi == "ARM") {
+        cpus = threads;
+        for (size_t i = 0; i < cpus; i++) {
+            threadMapping.push_back(i);
         }
     }
 
