@@ -180,3 +180,11 @@ json Context::getJson() {
 
     return obj;
 }
+
+size_t Context::getCpus() { 
+    return this->cpus; 
+}
+
+std::vector<size_t> Context::getThreadMapping() {
+    return this->threadMapping;
+}

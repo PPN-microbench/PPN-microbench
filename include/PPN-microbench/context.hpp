@@ -59,6 +59,9 @@ class Context {
     const size_t &getl3() const { return l3; }
 
     json getJson();
+    size_t getCpus();
+    std::vector<size_t> getThreadMapping();
+    std::set<std::string> getSimd(); 
 };
 
 #endif

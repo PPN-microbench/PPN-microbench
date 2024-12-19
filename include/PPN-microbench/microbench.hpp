@@ -19,8 +19,6 @@ class Microbench {
     std::string name;
     int nbIterations;
 
-    virtual void executeBench() = 0;
-
   public:
     Context context = Context::getInstance();
 
