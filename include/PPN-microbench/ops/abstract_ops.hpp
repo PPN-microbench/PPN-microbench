@@ -9,23 +9,27 @@
 static int c;
 
 class AbstractOps : public Microbench {
-    protected:
-        int nbCpus;
-        u64 *results;
-        std::vector<std::vector<u64>> finalResults;
-        
-        // single bench run time in ms
-        int benchTime = 1000;
+  protected:
+    int nbCpus;
+    u64 *results;
+    std::vector<std::vector<u64>> finalResults;
 
-        static void *threadHelper(void *context) {((AbstractOps *) context)->compute(c++); return nullptr;}
-        void executeBench();
-        virtual void compute(int) = 0;
-    public:
-        AbstractOps(std::string, int);
-        ~AbstractOps();
+    // single bench run time in ms
+    int benchTime = 1000;
 
-        void run();
-        json getJson();
+    static void *threadHelper(void *context) {
+        ((AbstractOps *)context)->compute(c++);
+        return nullptr;
+    }
+    void executeBench();
+    virtual void compute(int) = 0;
+
+  public:
+    AbstractOps(std::string, int);
+    ~AbstractOps();
+
+    void run();
+    json getJson();
 };
 
 #endif

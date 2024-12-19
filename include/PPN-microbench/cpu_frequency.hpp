@@ -3,22 +3,24 @@
 
 #include <PPN-microbench/microbench.hpp>
 #include <PPN-microbench/rdtsc.hpp>
-#include <vector>
+#include <PPN-microbench/context.hpp>
 #include <chrono>
 #include <thread>
+#include <threads.h>
 
-class CPUFrequency : Microbench {
+class CPUFrequency : public Microbench {
     private:
-        unsigned int nbThreads;
-        std::vector<std::vector<u64>> measures;
-        std::vector<std::vector<u64>> benchTimes;
-        void executeBench(int id);
+        int nbTestingCores = 0;
+        int nbMeasures = 0;
+        int nbCores;
+        std::unique_ptr<double[]> measures;
+        void executeAdds();
         
     public:
-        CPUFrequency(std::string name, int nbIterations);
+        CPUFrequency(int nbMeasures);
         ~CPUFrequency();
 
-        void run();
+        void run() override;
         json getJson() override;
 };
 

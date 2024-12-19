@@ -1,50 +1,77 @@
 #include <PPN-microbench/cpu_frequency.hpp>
 
-CPUFrequency::CPUFrequency(std::string name, int nbIterations) : Microbench(name, nbIterations)  {
-    nbThreads = std::thread::hardware_concurrency() - 1;
-    measures.reserve(nbThreads * nbIterations);
-    benchTimes.reserve(nbThreads * nbIterations);
+CPUFrequency::CPUFrequency(int nbMeasures) : Microbench("CPU Frequency", 9999999){
+    this->nbMeasures = nbMeasures;
+    Context context = Context::getInstance();
+    nbCores = context.getCpus();
+    measures = std::make_unique<double[]>(nbMeasures * ((nbCores * (nbCores + 1)) / 2));
 }
 
 CPUFrequency::~CPUFrequency() {}
 
-void CPUFrequency::executeBench(int id) {
-    u64 startMeasure = rdtsc();
-    std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
-    int cpt;
-    for (int i = 0; i < INT32_MAX; i++) {
-        cpt++;
+void CPUFrequency::executeAdds() {
+    int cpt = 0;
+    for (int i = 0; i < getNbIterations(); i++) {
+        // 16 adds
+        cpt++; cpt++; cpt++; cpt++; cpt++; cpt++; cpt++; cpt++;
+        cpt++; cpt++; cpt++; cpt++; cpt++; cpt++; cpt++; cpt++;
     }
-    measures[id].push_back(rdtsc() - startMeasure);
-    std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
-    benchTimes[id].push_back(std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count());
-    // std::cout << "Mesure" << std::endl;
 }
 
 json CPUFrequency::getJson() {
     json cpuSpeedJson = json::object();
-    std::string name;
-    for (unsigned int id = 0; id < nbThreads; id++) {
-        for (int i = 0; i < getNbIterations(); i++) {
-            cpuSpeedJson["CPU" + std::to_string(id)] += {measures[id][i] / benchTimes[id][i], benchTimes[id][i]};
+    cpuSpeedJson["name"] = getName();
+    for (int id = 1; id <= nbTestingCores; id++) {
+        for (int i = 0; i < nbMeasures * id; i++) {
+            cpuSpeedJson["results"]["Cores" + std::to_string(id)][i/nbMeasures] += measures[id * nbCores + i];
         }
     }
     return cpuSpeedJson;
 }
 
 void CPUFrequency::run() {
-    std::thread threads[nbThreads];
+    Context context = Context::getInstance();
+    std::vector<size_t> threadMapping = context.getThreadMapping();
 
-    for (unsigned int id = 0; id < nbThreads; id++) {
-        threads[id] = std::thread([this, id] {
-            for (int i = 0; i < getNbIterations(); i++) {
-                this->executeBench(id);
+    cpu_set_t cpusets[nbCores];
+
+    for (int i = 0; i < nbCores; i++) {
+        CPU_ZERO(&cpusets[i]);
+        CPU_SET(threadMapping[i], &cpusets[i]);
+    }
+
+    std::thread threads[nbCores];
+
+    // To stop earlier if it's needed (but protection if maxCores is bigger than the cores count)
+    nbTestingCores = threadMapping.size();
+
+    for (int coresToExecute = 1; coresToExecute <= nbTestingCores; coresToExecute++) { // Main for, equivalent to a graph
+        for (int coresExecuted = 1; coresExecuted <= coresToExecute; coresExecuted++) { // For every core count, equivalent to a point in a graph
+            for (int sample = -5; sample < nbMeasures; sample++) { // 5 Warmup runs and samples to average tests (in python, later)
+                // Execute on 1 Core, then 2 Cores, 3 Cores, etc...
+                auto start = std::chrono::steady_clock::now();
+
+                for (int id = 0; id < coresExecuted; id++) {
+                    // To call the threads (only 1;  1 and 2;  1, 2 and 3;  etc...)
+                    threads[id] = std::thread([this] {
+                            this->executeAdds();
+                    });
+                    pthread_setaffinity_np(threads[id].native_handle(),
+                                        sizeof(cpu_set_t), &cpusets[id]);
+                }
+            
+                for (int id = 0; id < coresExecuted; id++) {
+                    // Waiting for the threads
+                    threads[id].join();
+                }
+
+                u64 duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now() - start).count();
+                if (sample >= 0) {
+                    measures[(coresToExecute * (coresToExecute - 1) / 2) * nbMeasures + (coresExecuted - 1) * nbMeasures + sample] = ((16.f * getNbIterations()) / duration);
+                }
             }
-        });
+            std::cout << "\r# " << name << ": run " << ((coresToExecute * (coresToExecute - 1)) / 2) + coresExecuted << "/" << ((nbCores * (nbCores + 1)) / 2) << std::flush;
+        }
     }
-
-    for (auto &th : threads) {
-        th.join();
-        // std::cout << "Thread fini" << std::endl;
-    }
+    std::cout << std::endl;
 }

@@ -8,19 +8,18 @@ AbstractOps::AbstractOps(std::string name, int rep) : Microbench(name, rep) {
     results = new u64[nbCpus];
 }
 
-AbstractOps::~AbstractOps() {
-    delete results;
-}
+AbstractOps::~AbstractOps() { delete results; }
 
 void AbstractOps::run() {
 
     // Main bench loop
     for (int i = 0; i < nbIterations; i++) {
-        cout << "\r# " << name << ": run " << i + 1 << "/" << nbIterations << "." << std::flush;
+        cout << "\r# " << name << ": run " << i + 1 << "/" << nbIterations
+             << "." << std::flush;
         executeBench();
     }
     cout << endl;
-    
+
     // Results pretty printing
     for (size_t i = 0; i < finalResults.size(); i++) {
         for (int j = 0; j < nbCpus; j++) {
@@ -47,9 +46,9 @@ void AbstractOps::executeBench() {
 
     // Threads stopping and result gathering
     std::vector<u64> tmp;
-    tmp.resize(nbCpus); 
+    tmp.resize(nbCpus);
     for (int i = 0; i < nbCpus; i++) {
-        pthread_cancel(threads[i]); 
+        pthread_cancel(threads[i]);
         tmp[i] = results[i];
     }
     finalResults.push_back(tmp);
@@ -58,5 +57,10 @@ void AbstractOps::executeBench() {
 }
 
 json AbstractOps::getJson() {
-    return json();
+    json obj;
+
+    obj["name"] = name;
+    obj["results"] = json(finalResults);
+
+    return obj;
 }

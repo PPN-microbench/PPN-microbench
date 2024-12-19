@@ -5,13 +5,8 @@ Microbench::Microbench(std::string name, int nbIterations) {
     this->nbIterations = nbIterations;
 }
 
-Microbench::~Microbench() {
-}
+Microbench::~Microbench() {}
 
-std::string Microbench::getName(){
-    return this->name;
-}
+std::string Microbench::getName() { return this->name; }
 
-int Microbench::getNbIterations(){
-    return this->nbIterations;
-}
+int Microbench::getNbIterations() { return this->nbIterations; }
