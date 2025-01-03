@@ -1,19 +1,18 @@
 #include <PPN-microbench/conductor.hpp>
-#include <PPN-microbench/ops/flops.hpp>
-#include <PPN-microbench/ops/iops.hpp>
+
+#include <PPN-microbench/ops.hpp>
 #include <PPN-microbench/cpu_frequency.hpp>
 
 int main() {
 
     Conductor conductor;
 
-    // conductor.addBench(new Flops(5))
-        // .addBench(new Iops(5))
-    conductor.addBench(new CPUFrequency(11))
+    conductor.addBench(new Ops(10))
+        .addBench(new CPUFrequency(10))
         .setOutputFile("../tmp/out.json")
         .run()
-        .save();
-        // .print();
+        .save()
+        .print();
 
     return 0;
 }
