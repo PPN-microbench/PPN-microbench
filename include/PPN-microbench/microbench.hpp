@@ -25,7 +25,7 @@ class Microbench {
     Context context = Context::getInstance();
 
     Microbench(std::string name, int nbIterations);
-    virtual ~Microbench(); /////////doit être virtual ??
+    virtual ~Microbench();
 
     std::string getName();
     int getNbIterations();
