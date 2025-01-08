@@ -116,6 +116,7 @@ void Memory::run() {
 // Get the results in JSON format
 json Memory::getJson() {
     json result1, result2, result;
+    result["name"] = "memory";
     for (size_t i = 0; i < mem_sizes.size(); ++i) {
         result1["Memory_Size"].push_back(mem_sizes[i]*sizeof(void *));
         result2["Latency"].push_back((double)mem_times[i]);

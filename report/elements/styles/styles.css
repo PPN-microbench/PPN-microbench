@@ -1,0 +1,111 @@
+/* Variables */
+:root {
+    --primary-color: #333333;
+    --secondary-color: #555555;
+    --background-color: #FFFFFF;
+    --border-color: #DDDDDD;
+    --header-color: #34668b;
+    --table-header-bg: #EEEEEE;
+    --font-stack: 'Arial', sans-serif;
+}
+
+body {
+    font-family: var(--font-stack);
+    font-size: 12pt;
+    line-height: 1.6;
+    color: var(--primary-color);
+    background-color: var(--background-color);
+    margin: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-bottom: 2px solid var(--header-color);
+}
+
+header h1 {
+    font-size: 2rem;
+    color: var(--header-color);
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-top: 2rem;
+    border-bottom: 2px solid var(--header-color);
+    padding-bottom: 0.2rem;
+}
+
+ul {
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    list-style-type: disc;
+}
+
+ul li {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+a {
+    color: var(--header-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+table th, table td {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    text-align: left;
+}
+
+table th {
+    background-color: var(--table-header-bg);
+    font-weight: bold;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+table td {
+    font-size: 0.95rem;
+    color: var(--primary-color);
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    margin: 2rem auto;
+    border: 1px solid var(--border-color);
+}
+
+@media print {
+    body {
+        margin: 0;
+    }
+
+    header {
+        page-break-after: always;
+    }
+
+    h2 {
+        page-break-before: always;
+    }
+}
