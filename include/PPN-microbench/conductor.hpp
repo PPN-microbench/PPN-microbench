@@ -1,10 +1,5 @@
-#include <iostream>
-#include <nlohmann/json.hpp>
-#include <string>
-#include <vector>
-
-#include <PPN-microbench/context.hpp>
 #include <PPN-microbench/microbench.hpp>
+#include <PPN-microbench/context.hpp>
 
 using json = nlohmann::ordered_json;
 

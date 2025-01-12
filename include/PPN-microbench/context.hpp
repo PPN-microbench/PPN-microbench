@@ -1,16 +1,17 @@
-#ifndef CONTEXT_HPP
-#define CONTEXT_HPP
+#ifndef PPN_MICROBENCH_CONTEXT_HPP
+#define PPN_MICROBENCH_CONTEXT_HPP
 
 #include <PPN-microbench/constants.hpp>
 
+#include <nlohmann/json.hpp>
+
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <regex>
 #include <set>
 #include <string>
-#include <unistd.h>
 #include <vector>
+#include <unistd.h>
 
 using json = nlohmann::ordered_json;
 

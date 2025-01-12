@@ -1,5 +1,4 @@
 #include <PPN-microbench/memory.hpp>
-#include <vector>
 
 // Function to generate a random index within a given threshold
 inline u64 random_index(u64 threshold) { return rand() % threshold; }

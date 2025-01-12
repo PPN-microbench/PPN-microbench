@@ -7,7 +7,6 @@
 
 #include <chrono>
 #include <thread>
-#include <threads.h> // needed to set thread affinty
 
 class Ops : public Microbench {
   private:

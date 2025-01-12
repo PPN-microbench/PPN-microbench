@@ -1,7 +1,5 @@
 #include <PPN-microbench/cpu_frequency.hpp>
 
-#include <sched.h>
-
 using std::chrono::steady_clock;
 using std::chrono::duration_cast;
 using std::chrono::nanoseconds;
