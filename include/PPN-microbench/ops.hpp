@@ -12,7 +12,7 @@ class Ops : public Microbench {
     int static const WARMUP_RUNS = 2;
     int static const RUNS = 10;
 
-    i64 n_ops;
+    int64_t n_ops;
     size_t cpus;
     cpu_set_t *cpusets;
 

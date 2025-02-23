@@ -70,7 +70,7 @@ class Memory(AbstractBench):
             diff = latencies[i + 1] - latencies[i]
             if abs(diff) > threshold_factor * np.mean(np.abs(np.diff(latencies))):
                 warning_message = f"Aberration detected between indices {i} and {i + 1}: difference = {diff}"
-                print(warning_message)
+                #print(warning_message)
 
         # Detect cache sizes based on significant changes in latency
         cache_sizes = self.detect_cache_sizes(memory_sizes, latencies, threshold_factor)  / 1024

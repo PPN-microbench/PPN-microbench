@@ -17,9 +17,9 @@ class CpuFrequency(AbstractBench):
         header = "<h2 id='CPUFrequency'>CPU Frequency</h2>"
 
         imgs = f"<img src='{wd}/out/cpu_frequency_multiplot.png'/>"
-        title = "<center><p>Frequencies of cores in GHz depending of their number</p></center>"
+        #title = "<center><p>Frequencies of cores in GHz depending of their number</p></center>"
         
-        return header+ imgs + title
+        return header+ imgs # + title
 
     def gen_images(self):
         data = self.bench_obj["results"]
@@ -32,7 +32,7 @@ class CpuFrequency(AbstractBench):
 
         figure, truc = plt.subplots(div, (len(data)//div), figsize=(10,13))
         plt.subplots_adjust(hspace=0.35, wspace=0.1)
-        plt.figtext(0.5, 0.02, "All values are in GHz", horizontalalignment = 'center')
+        plt.figtext(0.5, 0.01, "Frequencies of cores in GHz depending of their number", horizontalalignment = 'center', size='x-large')
 
         max_val = 0
         min_val = 100
@@ -49,8 +49,7 @@ class CpuFrequency(AbstractBench):
 
         for j, cpu in enumerate(data):
             values = []
-            top = []
-            bot = []
+            std = []
             if j == 0 :
                 mot = ' Core'
             else :
@@ -60,20 +59,22 @@ class CpuFrequency(AbstractBench):
                 for val in vals:
                     temp.append(val)  
                 values.append(np.mean(temp))
+                std.append(np.std(temp))
                 all_vals.append(values[-1])
 
             if div != 1 :
                 cadre = truc[j//((len(data)//div)), j%((len(data)//div))] 
             else :
-                cade = truc[j//((len(data)//div))]
-            cadre.plot(range(1, j + 2), values, marker=".", label=str(j+1) + mot)
+                cadre = truc[j//((len(data)//div))]
+            # cadre.plot(range(1, j + 2), values, marker=".", label=str(j+1) + mot)
+            cadre.errorbar(range(1, j + 2), values, yerr=std, marker=".", label=str(j+1) + mot, capsize=5, capthick=1, ecolor='gray')
             cadre.set_ylim(min_val, max_val)
             # if warning :
             #     cadre.fill_between(range(j+1), top, bot, color='red', alpha=0.1)
             # else :
             #     cadre.fill_between(range(j+1), top, bot, color='blue', alpha=0.1)
             cadre.set_xlabel('Cores')
-            # cadre.set_ylabel('Frequency (GHz)')
+            cadre.set_ylabel('Frequency (GHz)')
             # cadre.ticklabel_format(useOffset=False)
             cadre.legend(loc="lower left", fontsize=10)
             cadre.grid(True, which='major', axis='both', linestyle='--', alpha=0.7)

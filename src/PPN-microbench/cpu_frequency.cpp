@@ -21,70 +21,11 @@ void CPUFrequency::executeBench() {
     #elif defined(__x86_64__)
     // x86 64
     cpu_frequency_x86_64(getNbIterations());
-    // asm(
-    //     "xor rax, rax;"
-    //     "start:"
-    //     // 16 adds
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-    //     "add rax, 1;"
-
-    //     "cmp rax, %0;"
-    //     "jl start;"
-    //     :
-    //     : "r" (getNbIterations() * 16)
-    //     : "rax"
-    // );
     #elif defined(__arm__) || defined(_M_ARM)
     // ARM 32
     #elif defined(__aarch64__) || defined(_M_ARM64)
     // arm 64
-    // asm(
-    //     "mov x0, #0;"         // x0 = 0
-    //     "start:;"
-    //     // 16 additions
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-    //     "add x0, x0, #1;"
-
-    //     "cmp x0, %0;" 
-    //     "b.lt start;"  
-    //     :
-    //     : "r" (getNbIterations() * 16)
-    //     : "x0"
-    // );
+    cpu_frequency_arm_64(getNbIterations());
     #else
     #error Unknown architecture: no support for CPU frequency benchmark
     #endif

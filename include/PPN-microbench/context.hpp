@@ -3,9 +3,10 @@
 
 #include <PPN-microbench/constants.hpp>
 
+#include <nlohmann/json.hpp>
+
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <regex>
 #include <set>
 #include <string>
