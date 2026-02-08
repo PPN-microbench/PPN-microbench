@@ -69,7 +69,7 @@ class CoreToCoreLatency(AbstractBench):
             ax.tick_params(axis='x', labeltop=True, labelbottom=False)
             ax.set_aspect('equal')
 
-            fig.colorbar(cax, fraction=0.03, pad=0.04)
+            fig.colorbar(cax, fraction=0.03, pad=0.04, label="Time (ns)")
 
             plt.tight_layout(pad=4)
 

@@ -4,9 +4,9 @@ using std::chrono::duration_cast;
 using std::chrono::nanoseconds;
 using std::chrono::steady_clock;
 
-constexpr int preheat = 100;
+constexpr int preheat = 50;
 
-CoreToCoreLatency::CoreToCoreLatency(int nbMeasures) : Microbench("Core To Core Latency", 900) {
+CoreToCoreLatency::CoreToCoreLatency(int nbMeasures) : Microbench("Core To Core Latency", 150) {
     this->nbMeasures = nbMeasures;
     nbCores = context.getCpus();
     resultsMin.reserve(nbCores * nbCores);

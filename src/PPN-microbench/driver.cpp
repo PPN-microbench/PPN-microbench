@@ -15,7 +15,7 @@ Driver::Driver(int argc, char **argv) {
     app.add_flag_callback("--ops", [this](){this->addBench(new Ops(11));}, "Run operations/second benchmark");
     app.add_flag_callback("--matrix-mult", [this](){this->addBench(new MatMulBench);}, "Run matrix multiplication benchmark");
     app.add_flag_callback("--load-test", [this](){this->addBench(new LoadTest(11));}, "Run load/stress test benchmark");
-    app.add_flag_callback("--c2c", [this](){this->addBench(new CoreToCoreLatency(11));}, "Run core to core latency benchmark");
+    app.add_flag_callback("--c2c", [this](){this->addBench(new CoreToCoreLatency(7));}, "Run core to core latency benchmark");
     app.add_flag_callback("--cache-latency", [this](){this->addBench(new CacheLatency);}, "Run cpu ram/cache latency benchmark");
     app.add_flag_callback("--mem-bandwidth", [this](){this->addBench(new MemoryBandwidth);}, "Run cpu ram/cache latency benchmark");
     app.add_flag_callback("--stream", [this](){this->addBench(new Stream);}, "Run stream benchmark");
@@ -38,7 +38,7 @@ Driver::Driver(int argc, char **argv) {
         addBench(new Ops(11));
         addBench(new CPUFrequency(11));
         addBench(new LoadTest(11));
-        addBench(new CoreToCoreLatency(11));
+        addBench(new CoreToCoreLatency(7));
         addBench(new CacheLatency());
         addBench(new MemoryBandwidth);
         addBench(new Stream);
